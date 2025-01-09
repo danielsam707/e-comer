@@ -1,8 +1,16 @@
 <div class="grid grid-cols-3 gap-8">
-  <app-product title="Prouduct 1" [price]="12" img="https://picsum.photos/640/640?r=2" (addToCart)="fromChild($event)" />
-  <app-product title="Prouduct 2" [price]="12" img="https://picsum.photos/640/640?r=3"/>
-  <app-product title="Prouduct 3" [price]="12" img="https://picsum.photos/640/640?r=4"/>
-  <app-product title="Prouduct 4" [price]="12" img="https://picsum.photos/640/640?r=5"/>
-  <app-product title="Prouduct 5" [price]="12" img="https://picsum.photos/640/640?r=6"/>
-
+  <app-product 
+  *ngFor="let product of products()"
+  [product]="product" 
+  (addToCart)="fromChild($event)" />
 </div>
+
+<!-- FORMA DE PASAR LOS INPUTS UNO A UNO
+<div class="grid grid-cols-3 gap-8">
+  <app-product 
+  *ngFor="let product of products()"
+  [title]="product.title" 
+  [price]="product.price" 
+  [img]="product.image" 
+  (addToCart)="fromChild($event)" />
+</div> -->
