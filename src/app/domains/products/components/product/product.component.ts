@@ -24,6 +24,6 @@ export class ProductComponent {
     console.log('click from child');
     // ESTA LIENA ERA CUANDO SE TENIAN LOS ATRIBUTOS
     // this.addToCart.emit('Hola, este es un mensaje desde el hijo' + this.title);
-    this.addToCart.emit('Hola, este es un mensaje desde el hijo' + this.product.title);
+    this.addToCart.emit(this.product);
   }
 }

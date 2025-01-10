@@ -14,6 +14,7 @@ import { HeaderComponent } from './../../../shared/components/header/header.comp
 export class ListComponent {
 
   // Aqui tambien se pudo haber inicializado el array como en el constructor
+  cart = signal<Product[]>([]);
   products = signal<Product[]>([]);
 
   constructor() {
@@ -65,8 +66,9 @@ export class ListComponent {
     this.products.set(initProducts);
   }
 
-  fromChild(event: Event) {
-    console.log('estamos en el padre');
-    console.log(event);
+  // Este es el evento que se recibe desde el componente hijo 
+  // en este caso un click en el boton de addToCart para agregar productos al carro
+  addToCart(product: Product) {
+    this.cart.update(prevState => [...prevState, product]);
   }
 }
