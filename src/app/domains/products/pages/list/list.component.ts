@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
 
 import { ProductComponent } from '@products/components/product/product.component';
 import { CommonModule } from '@angular/common';
@@ -8,41 +8,34 @@ import { CartService } from '@shared/services/cart.service';
 import { ProductService } from '@shared/services/product.service';
 import { CategoryService } from '@shared/services/category.service';
 import { Category } from '@shared/models/category.model';
+import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule, ProductComponent, ],
+  imports: [CommonModule, ProductComponent, RouterLinkWithHref],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
-
-  // Aqui tambien se pudo haber inicializado el array como en el constructor
-  // ESTO FUE REMPLAZADO POR EL USO DE UN SERVICIO
-  // cart = signal<Product[]>([]);
-
-
   
   products = signal<Product[]>([]);
   categories = signal<Category[]>([]);
 
-  //Se injecta el servicio del carrito
   private cartService = inject(CartService);
-  // Se borro una lista de productos
-
-
-  //Injectamos el servicio
   private productService = inject(ProductService);
-
-  //Se injecta el servicio de categorias
   private categoryService = inject(CategoryService);
+
+  @Input() category_id?: string;
+
 
   //Aqui se hace el fetch de los productos y las categorias.
   ngOnInit() {
-    this.getProducts();
     this.getCategories();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+  this.getProducts();
+  }
 
 
 
@@ -55,7 +48,7 @@ export class ListComponent {
 
   //Metodo para obtener producto
   private getProducts(){
-    this.productService.getProducts().subscribe({
+    this.productService.getProducts(this.category_id).subscribe({
       next: (products) => {
         this.products.set(products);
       },
